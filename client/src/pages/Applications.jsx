@@ -20,6 +20,13 @@ setSelectedApplication]
 =
 useState(null);
 
+const [search,
+setSearch]
+=
+useState("");
+
+const [statusFilter, setStatusFilter] = useState("");
+
 useEffect(() => {
 
  fetchApplications();
@@ -36,7 +43,7 @@ async () => {
  const res =
  await axios.get(
 
- "http://localhost:5000/api/applications",
+ "https://tracktern-ai.onrender.com/api/applications",
 
  {
   headers:{
@@ -70,7 +77,7 @@ async(id)=>{
 
  await axios.delete(
 
- `http://localhost:5000/api/applications/${id}`,
+ `https://tracktern-ai.onrender.com/api/applications/${id}`,
 
  {
   headers:{
@@ -93,6 +100,12 @@ async(id)=>{
 
 }
 
+const filteredApplications = applications.filter((app) => {
+  const matchesSearch = app.companyName.toLowerCase().includes(search.toLowerCase());
+  const matchesStatus = statusFilter === "" || app.status === statusFilter;
+  return matchesSearch && matchesStatus;
+});
+
 
   return (
     <div className="applications-layout">
@@ -105,7 +118,49 @@ async(id)=>{
 
           <h1>Applications</h1>
 
-          <button
+          <div className="filter-section">
+
+  <input
+    type="text"
+    placeholder="Search Company"
+    value={search}
+    onChange={(e)=>
+      setSearch(e.target.value)
+    }
+  />
+
+  <select
+    value={statusFilter}
+    onChange={(e)=>
+      setStatusFilter(e.target.value)
+    }
+  >
+
+    <option value="">
+      All Status
+    </option>
+
+    <option value="Applied">
+      Applied
+    </option>
+
+    <option value="Interview">
+      Interview
+    </option>
+
+    <option value="Offer">
+      Offer
+    </option>
+
+    <option value="Rejected">
+      Rejected
+    </option>
+
+  </select>
+
+</div>
+          
+      <button
             className="add-btn"
             onClick={() => setShowModal(true)}
           >
@@ -131,6 +186,8 @@ async(id)=>{
 />
         )}
 
+        
+
         <div className="table-container">
 
           <table>
@@ -146,8 +203,9 @@ async(id)=>{
             </thead>
 
             <tbody>
-
-              {applications.map((app) => (
+              {
+                
+              filteredApplications.map((app) => (
 
                 <tr key={app._id}>
 

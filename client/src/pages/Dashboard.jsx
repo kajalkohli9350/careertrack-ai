@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 import Sidebar from "../components/Sidebar";
 import "./Dashboard.css";
 function Dashboard() {
@@ -6,6 +10,97 @@ function Dashboard() {
     JSON.parse(
       localStorage.getItem("user")
     );
+
+    const [search,
+setSearch]
+=
+useState("");
+
+    const [applications,
+setApplications]
+=
+useState([]);
+
+
+
+useEffect(() => {
+
+ fetchApplications();
+
+}, []);
+
+const fetchApplications =
+async () => {
+
+ try{
+
+ const token =
+ localStorage.getItem("token");
+
+ const res =
+ await axios.get(
+
+ "https://tracktern-ai.onrender.com/api/applications",
+
+ {
+  headers:{
+   Authorization:
+   `Bearer ${token}`
+  }
+ }
+
+ );
+
+ setApplications(
+  res.data
+ );
+
+ }
+
+ catch(error){
+
+  console.log(error);
+
+ }
+
+};
+const totalApplications =
+applications.length;
+
+const interviews =
+applications.filter(
+
+ app =>
+ app.status === "Interview"
+
+).length;
+const offers =
+applications.filter(
+
+ app =>
+ app.status === "Offer"
+
+).length;
+const rejected =
+applications.filter(
+
+ app =>
+ app.status === "Rejected"
+
+).length;
+
+const filteredApplications =
+applications.filter(
+
+ app =>
+
+ app.companyName
+ .toLowerCase()
+ .includes(
+ search.toLowerCase()
+ )
+
+);
 
   return (
      <div>
@@ -22,17 +117,22 @@ function Dashboard() {
 
           <div className="stat-card">
             <h3>Total Applications</h3>
-            <p>15</p>
+            <p>{totalApplications}</p>
           </div>
 
           <div className="stat-card">
             <h3>Interviews</h3>
-            <p>3</p>
+            <p>{interviews}</p>
           </div>
 
           <div className="stat-card">
-            <h3>Selected</h3>
-            <p>1</p>
+            <h3>Offers</h3>
+            <p>{offers}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Rejected</h3>
+            <p>{rejected}</p>
           </div>
 
         </div>
@@ -52,19 +152,47 @@ function Dashboard() {
             </thead>
 
             <tbody>
-              <tr>
-                <td>Google</td>
-                <td>Frontend Intern</td>
-                <td>Applied</td>
-              </tr>
 
-              <tr>
-                <td>Amazon</td>
-                <td>MERN Developer</td>
-                <td>Interview</td>
-              </tr>
+   {
+    applications
+    .slice(0,5)
+    .map((app)=>(
+     <tr key={app._id}>
 
-            </tbody>
+      <td>
+       {app.companyName}
+      </td>
+
+      <td>
+       {app.role}
+      </td>
+
+      <td>
+       {app.status}
+      </td>
+
+     </tr>
+    ))
+   }
+   {
+ applications.length === 0 && (
+
+ <div className="empty-state">
+
+  <h3>
+   No Applications Yet
+  </h3>
+
+  <p>
+   Start tracking your jobs
+  </p>
+
+ </div>
+
+ )
+}
+
+  </tbody>
 
           </table>
 

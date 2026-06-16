@@ -54,7 +54,7 @@ async(e)=>{
 
   await axios.put(
 
-  `http://localhost:5000/api/applications/${selectedApplication._id}`,
+  `https://tracktern-ai.onrender.com/api/applications/${selectedApplication._id}`,
 
   formData,
 
@@ -73,7 +73,7 @@ async(e)=>{
 
   await axios.post(
 
-  "http://localhost:5000/api/applications/add",
+  "https://tracktern-ai.onrender.com/api/applications/add",
 
   formData,
 

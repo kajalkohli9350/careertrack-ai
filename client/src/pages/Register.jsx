@@ -22,7 +22,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://tracktern-ai.onrender.com/api/auth/register",
         formData,
       );
 
@@ -70,6 +70,8 @@ function Register() {
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
           />
 
           <button className="registerbutton" onClick={handleSubmit}>
