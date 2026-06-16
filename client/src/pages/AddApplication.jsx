@@ -2,14 +2,29 @@ import { useState } from "react";
 import "./AddApplication.css";
 import axios from "axios";
 
-function AddApplication({ closeModal, fetchApplications }) {
+function AddApplication({ closeModal, fetchApplications, selectedApplication }) {
+const [formData,
+setFormData]
+=
+useState({
 
-  const [formData, setFormData] = useState({
-    companyName: "",
-    role: "",
-    status: "Applied",
-    notes: ""
-  });
+ companyName:
+ selectedApplication?.companyName
+ || "",
+
+ role:
+ selectedApplication?.role
+ || "",
+
+ status:
+ selectedApplication?.status
+ || "Applied",
+
+ notes:
+ selectedApplication?.notes
+ || ""
+
+});
 
   const handleChange = (e) => {
 
@@ -25,49 +40,66 @@ function AddApplication({ closeModal, fetchApplications }) {
   };
 
 
-   const handleSubmit = async (e) => {
+  const handleSubmit =
+async(e)=>{
 
-  e.preventDefault();
+ e.preventDefault();
 
-  try {
+ try{
 
-    const token =
-    localStorage.getItem("token");
+ const token =
+ localStorage.getItem("token");
 
-    const res =
-    await axios.post(
+ if(selectedApplication){
 
-      "http://localhost:5000/api/applications/add",
+  await axios.put(
 
-      formData,
+  `http://localhost:5000/api/applications/${selectedApplication._id}`,
 
-      {
-        headers:{
-          Authorization:
-          `Bearer ${token}`
-        }
-      }
+  formData,
 
-    );
-
-    alert(
-      "Application Added Successfully"
-    );
-
-    await fetchApplications();
-    closeModal();
-
+  {
+   headers:{
+    Authorization:
+    `Bearer ${token}`
+   }
   }
 
-  catch(error){
+  );
 
-    console.log(error);
+ }
 
-    alert(
-      "Failed To Add Application"
-    );
+ else{
 
+  await axios.post(
+
+  "http://localhost:5000/api/applications/add",
+
+  formData,
+
+  {
+   headers:{
+    Authorization:
+    `Bearer ${token}`
+   }
   }
+
+  );
+
+ }
+
+ await fetchApplications();
+
+ closeModal();
+
+ }
+
+ catch(error){
+
+  console.log(error);
+
+ }
+
 
 };
   
@@ -80,7 +112,18 @@ function AddApplication({ closeModal, fetchApplications }) {
 
         <div className="modal-header">
 
-          <h2>Add New Application</h2>
+         <h2>
+
+{
+ selectedApplication
+
+ ? "Edit Application"
+
+ : "Add New Application"
+
+}
+
+</h2>
 
           <button
             onClick={closeModal}
@@ -138,7 +181,14 @@ function AddApplication({ closeModal, fetchApplications }) {
             </button>
 
             <button  type="submit" onClick={handleSubmit}> 
-              Save Application
+           {
+ selectedApplication
+
+ ? "Update Application"
+
+ : "Save Application"
+
+}
             </button>
 
           </div>

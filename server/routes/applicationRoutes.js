@@ -8,7 +8,7 @@ const protect =
 require("../middleware/authMiddleware");
 
 const {
- addApplication,getApplications , deleteApplication
+ addApplication,getApplications , deleteApplication , updateApplication
 }
 =
 require(
@@ -34,6 +34,12 @@ router.delete(
  "/:id",
  protect,
  deleteApplication
+);
+
+router.put(
+ "/:id",
+ protect,
+ updateApplication
 );
 
 module.exports=router;

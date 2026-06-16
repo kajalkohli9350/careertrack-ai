@@ -4,7 +4,7 @@ import AddApplication from "./AddApplication";
 import "./Application.css";
 import axios from "axios";
 import { useEffect } from "react";
-import { FaTrash }
+import { FaTrash , FaEdit}
 from "react-icons/fa";
 
 function Applications() {
@@ -15,6 +15,10 @@ function Applications() {
 setApplications]
 =
 useState([]);
+const [selectedApplication,
+setSelectedApplication]
+=
+useState(null);
 
 useEffect(() => {
 
@@ -120,6 +124,9 @@ async(id)=>{
  fetchApplications={
  fetchApplications
  }
+  selectedApplication={
+  selectedApplication
+    }
 
 />
         )}
@@ -160,21 +167,39 @@ async(id)=>{
 
                   <td>{app.appliedDate}</td>
 
+
+
  <td>
 
-  <button
+<button
 
-   onClick={() =>
-   deleteApplication(app._id)
-   }
+ onClick={() => {
 
-  >
+  setSelectedApplication(app);
 
-   <FaTrash />
+  setShowModal(true);
 
-  </button>
+ }}
 
- </td>
+>
+
+ <FaEdit />
+
+</button>
+
+<button
+
+ onClick={() =>
+ deleteApplication(app._id)
+ }
+
+>
+
+ <FaTrash />
+
+</button>
+
+</td>
 
                 </tr>
 

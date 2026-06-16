@@ -91,3 +91,43 @@ async (req,res)=>{
  }
 
 }
+
+exports.updateApplication =
+async(req,res)=>{
+
+ try{
+
+  const application =
+  await Application.findByIdAndUpdate(
+
+   req.params.id,
+
+   req.body,
+
+   { new:true }
+
+  );
+
+  if(!application){
+
+   return res.status(404).json({
+    message:"Application Not Found"
+   });
+
+  }
+
+  res.status(200).json(
+   application
+  );
+
+ }
+
+ catch(error){
+
+  res.status(500).json({
+   message:error.message
+  });
+
+ }
+
+}
