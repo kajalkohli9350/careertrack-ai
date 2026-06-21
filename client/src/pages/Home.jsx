@@ -1,6 +1,5 @@
 import Navbar from "../components/Navbar";
 import "./Home.css";
-import careerimg from "../assests/careerimg.png";
 import { Link } from "react-router-dom";
 import {
   FaBriefcase,
