@@ -82,3 +82,45 @@ td{
   border:1px solid #ccc;
   border-radius:8px;
 }
+
+button svg{
+  color:#4b71d9;
+}
+
+/* Responsive adjustments for applications list */
+@media (max-width: 900px) {
+  .applications-layout{
+    flex-direction: column;
+  }
+
+  .main-content{
+    margin-left: 0;
+    padding: calc(var(--topbar-height) + 20px) 16px;
+  }
+
+  .applications-header{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .filter-section{
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .table-container{
+    overflow-x: auto;
+    padding: 12px;
+  }
+
+  .add-btn{
+    width: 100%;
+  }
+
+  /* Ensure sidebar hiding from Sidebar.css takes effect visually */
+  .nav-links2{
+    display: none;
+  }
+}

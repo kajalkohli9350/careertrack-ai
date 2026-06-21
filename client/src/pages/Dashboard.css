@@ -45,3 +45,25 @@ td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+
+/* Responsive adjustments for dashboard */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0;
+    padding: calc(var(--topbar-height) + 20px) 16px 20px 16px;
+  }
+
+  .stat-card p {
+    font-size: 24px;
+  }
+
+  .recent-section {
+    padding: 16px;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
